@@ -1,20 +1,148 @@
-function getRandomNumber (min, max) {
-  if (min >= 0 && max > min) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  return 'Числа должны быть больше нуля и максимальное число должно быть больше';
+// Данные для обтектов бронирования
+const headers = [
+  'Дом с видом на море',
+  'Апартаменты в центре города',
+  'Уютная квартира с балконом',
+  'Хостел',
+  'Деревянный дом в горах',
+  'Отель Фортуна',
+  'Студия в центре',
+  'Сдаю палатку в лесу',
+  'Квартира в бабукином стиле',
+  'Лофт отель'
+];
+
+const price = {
+  min: 100,
+  max: 100000
+};
+
+const types = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+  'hotel'
+];
+
+const checkInOutTime = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+const features = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
+];
+
+const descriptions = [
+  'Идеальное место для отдыха, до моря 5 минут.',
+  'Метро рядом, остальное не важно',
+  'Место спойное, но медведи иногда захаживают',
+  'Квартира топ за свои деньги',
+  '2х спальная кровать, завтрак включен',
+  'Лучше места не найдете',
+  'Лучшие закаты только с моего балкона',
+  '4 спальни и гостинная, во дворе баня',
+];
+
+const photos = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+];
+
+const lat = {
+  min: 35.65000,
+  max: 35.70000
+};
+
+const lng = {
+  min: 139.70000,
+  max: 139.80000
+};
+
+// Генератор случайного целого чисела
+function getRandomPositiveInteger(a, b) {
+  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
 }
 
-getRandomNumber(5, 10);
-
-function getFloatingPointNumber (min, max, count) {
-  if (count > 20 && count < 0 ) {
-    return 'Колтчество знаков после запятой должно быть от 0 до 20';
-  } else if (min < 0 && max < min) {
-    return 'Числа должны быть больше нуля и максимальное число должно быть больше';
-  } else {
-    return parseFloat((Math.random() * (max - min) + min).toFixed(count));
-  }
+//Генеротор случайного числа с плавающей точкой
+function getRandomPositiveFloat(a, b, digits = 5) {
+  const lower = Math.min(Math.abs(a), Math.abs(b));
+  const upper = Math.max(Math.abs(a), Math.abs(b));
+  const result = Math.random() * (upper - lower) + lower;
+  return +result.toFixed(digits);
 }
 
-getFloatingPointNumber(10, 15, 21);
+//Получаем случайное значение из массива
+const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
+
+// Генератор случайного уникального пользователя
+const USERS_COUNT = 10;
+const photosNumber = [];
+function getRandomNoRepeatInteger(a = 1, b = USERS_COUNT) {
+  let result = getRandomPositiveInteger(a, b);
+  if (photosNumber.includes(result)) {
+    while (photosNumber.includes(result)) {
+      result = getRandomPositiveInteger(a, b);
+    }
+  }
+  photosNumber.push(result);
+  result = result < 10 ? `0${result}` : result;
+  return result;
+}
+
+//Получаем несколько случайных значений массива
+function getSomeRandomValue(elements) {
+  const randomElements = [];
+  const countValue = getRandomPositiveInteger(1, elements.length);
+  let value;
+  while (randomElements.length < countValue) {
+    value = getRandomArrayElement(elements);
+    if (!randomElements.includes(value)) {
+      randomElements.push(value);
+    }
+  }
+  return randomElements;
+}
+
+// Генератор случайного обьекта бронирования
+const CreateRandomHouse = () => {
+  const author = {
+    avatar: `img/avatars/user${getRandomNoRepeatInteger()}.png`
+  };
+  const location = {
+    lat: getRandomPositiveFloat(lat.min, lat.max),
+    lng: getRandomPositiveFloat(lng.min, lng.max)
+  };
+  const offer = {
+    title: getRandomArrayElement(headers),
+    address: `${location.lat}, ${location.lng}`,
+    price: getRandomPositiveInteger(price.min, price.max),
+    type: getRandomArrayElement(types),
+    rooms: getRandomPositiveInteger(1, 10),
+    guests: getRandomPositiveInteger(1, 10),
+    checkin: getRandomArrayElement(checkInOutTime),
+    ckeckout: getRandomArrayElement(checkInOutTime),
+    features: getSomeRandomValue(features),
+    description: getRandomArrayElement(descriptions),
+    photos: getRandomArrayElement(photos)
+  };
+  return {
+    author,
+    location,
+    offer
+  };
+};
+
+const houses = Array.from({ length: 10 }, CreateRandomHouse);
+
