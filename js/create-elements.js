@@ -106,10 +106,10 @@ const CreateRandomHouse = () => {
     rooms: getRandomPositiveInteger(1, 10),
     guests: getRandomPositiveInteger(1, 10),
     checkin: getRandomArrayElement(CHECK_IN_OUT_TIME),
-    ckeckout: getRandomArrayElement(CHECK_IN_OUT_TIME),
+    checkout: getRandomArrayElement(CHECK_IN_OUT_TIME),
     features: getSomeRandomValue(FEATURES),
     description: getRandomArrayElement(DESCRIPTIONS),
-    photos: getRandomArrayElement(PHOTOS)
+    photos: getSomeRandomValue(PHOTOS)
   };
   return {
     author,
@@ -118,7 +118,7 @@ const CreateRandomHouse = () => {
   };
 };
 
-const createElements = () => Array.from({ length: 10 }, CreateRandomHouse);
+const createElements = () => Array.from({ length: 1 }, CreateRandomHouse);
 
 export {createElements};
 
