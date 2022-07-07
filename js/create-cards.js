@@ -1,9 +1,7 @@
-import { createElements } from './create-elements.js';
 const template = document.querySelector('#card').content.querySelector('.popup');
-const houses = createElements();
 const mapCanvas = document.querySelector('.map__canvas');
 
-const generateCards = function () {
+const generateCards = function (houses) {
   const houseCard = template.cloneNode(true);
   houses.forEach(({author, offer}) => {
     houseCard.querySelector('.popup__title').textContent = offer.title;
@@ -13,25 +11,15 @@ const generateCards = function () {
     houseCard.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
     houseCard.querySelector('.popup__description').textContent = offer.description;
     houseCard.querySelector('.popup__avatar').src = author.avatar;
-    let type;
-    switch(offer.type) {
-      case 'flat':
-        type = 'Квартира';
-        break;
-      case 'bungalow':
-        type = 'Бунгало';
-        break;
-      case 'house':
-        type = 'Дом';
-        break;
-      case 'palace':
-        type = 'Дворец';
-        break;
-      case 'hotel':
-        type = 'Отель';
-        break;
-    }
-    houseCard.querySelector('.popup__type').textContent = type;
+
+    const HouseType = {
+      flat: 'Квартира',
+      bungalow: 'Бунгало',
+      house: 'Дом',
+      palace: 'Дворец',
+      hotel: 'Отель'
+    };
+    houseCard.querySelector('.popup__type').textContent = HouseType[offer.type];
 
     const featuresContainer = houseCard.querySelector('.popup__features');
     const featuresList = featuresContainer.querySelectorAll('.popup__feature');
