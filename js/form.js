@@ -22,7 +22,7 @@ const pristine = new Pristine(form, {
 const price = form.querySelector('#price');
 const type = form.querySelector('#type');
 
-const MIN_PRICE = {
+const MinPrice = {
   flat: 1000,
   bungalow: 0,
   house: 5000,
@@ -31,15 +31,15 @@ const MIN_PRICE = {
 };
 
 const minPriceValidator = () => {
-  if(MIN_PRICE[type.value] < price.value) {
+  if(MinPrice[type.value] < price.value) {
     return true;
   }
   return false;
 };
 
 const getPriceErrorMessage = () => {
-  price.placeholder = MIN_PRICE[type.value];
-  return `Минимальная цена для этого типа жилья ${MIN_PRICE[type.value]}`;
+  price.placeholder = MinPrice[type.value];
+  return `Минимальная цена для этого типа жилья ${MinPrice[type.value]}`;
 };
 
 pristine.addValidator(price, minPriceValidator, getPriceErrorMessage);
@@ -52,7 +52,7 @@ type.addEventListener('change', () => {
 const capacity = form.querySelector('#capacity');
 const rooms = form.querySelector('#room_number');
 
-const CAPACITY_ERROR_MESSAGE = {
+const CapactyErrorMessage = {
   100: 'не для гостей',
   1: 'для 1 гостя',
   2: 'проживание до 2х гостей',
@@ -77,7 +77,7 @@ const getErrorCapacity = () => {
     return false;
   }
 };
-const getCapacityErrorMessage = () => CAPACITY_ERROR_MESSAGE[rooms.value];
+const getCapacityErrorMessage = () => CapactyErrorMessage[rooms.value];
 
 pristine.addValidator(capacity, getErrorCapacity, getCapacityErrorMessage);
 
