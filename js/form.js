@@ -85,6 +85,24 @@ rooms.addEventListener('change', () => {
   pristine.validate(capacity);
 });
 
+//Валидация вьезда-выезда
+const timeIn = form.querySelector('#timein');
+const timeOut = form.querySelector('#timeout');
+
+const changeAttribute = (change, value) => {
+  const selected = change.querySelector('option[selected]');
+  selected.removeAttribute('selected');
+  const addSelected = change.querySelector(`option[value="${value}"]`);
+  addSelected.setAttribute('selected', 'selected');
+};
+
+timeOut.addEventListener('change', () => {
+  changeAttribute(timeIn, timeOut.value);
+});
+timeIn.addEventListener('change', () => {
+  changeAttribute(timeOut, timeIn.value);
+});
+
 form.addEventListener ('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
