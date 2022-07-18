@@ -353,6 +353,12 @@ fieldset {
   font-size: 14px;
 }
 
+.ad-form__element--error {
+  display: block;
+  padding-top: 5px;
+  color: #ff2a00;
+}
+
 .ad-form__element--wide {
   -ms-flex-preferred-size: 50%;
       flex-basis: 50%;
