@@ -1,6 +1,6 @@
 import { changeFormStatus } from './form.js';
 import { generateCards } from './create-cards.js';
-import { pristine } from './form.js';
+
 
 //Настройка карты
 const LOCATION = {
@@ -44,23 +44,13 @@ const addessMarker = L.marker(
 );
 addessMarker.addTo(map);
 
-//Валидация поля адреса
 const getStringForLocation = (location) => {
   const {lat, lng} = location;
   return `${lat.toFixed(5)} ${lng.toFixed(5)}`;
 };
 
-const address = document.querySelector('#address');
-const checkAddress = () => getStringForLocation(addessMarker.getLatLng()) === address.value;
-pristine.addValidator(address, checkAddress, 'Укажите адрес на карте');
-
-address.addEventListener('change', () => {
-  pristine.validate(address);
-});
-
 addessMarker.on('moveend', (evt) => {
   document.querySelector('#address').value = getStringForLocation(evt.target.getLatLng());
-  pristine.validate(address);
 });
 
 //Маркеры обьявлений
