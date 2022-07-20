@@ -118,7 +118,7 @@ const CreateRandomHouse = () => {
   };
 };
 
-const createElements = () => Array.from({ length: 1 }, CreateRandomHouse);
+const createElements = () => Array.from({ length: 10 }, CreateRandomHouse);
 
 export {createElements};
 

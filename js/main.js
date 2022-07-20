@@ -1,5 +1,7 @@
-import {createElements} from './create-elements.js';
-import { generateCards } from './create-cards.js';
-import {changeFormStatus} from './form.js';
-changeFormStatus(true);
-generateCards(createElements());
+import { displayMarkers } from './map.js';
+import { createElements } from './create-elements.js';
+
+const houses = createElements();
+
+displayMarkers(houses);
+

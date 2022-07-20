@@ -6,7 +6,7 @@ const changeFormStatus = (status) => {
     adForm.classList.add('ad-form--disabled');
     mapFilters.classList.add('map__filters--disabled');
   } else {
-    adForm.classList.remove('.ad-form--disabled');
+    adForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
   }
 };
@@ -18,8 +18,19 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__element--error'
 });
 
-//Валидация цен
+//Добавляем слайдер
 const price = form.querySelector('#price');
+const sliderElement = form.querySelector('.ad-form__slider');
+
+noUiSlider.create(sliderElement, {
+  range: {
+    min: 0,
+    max: 100000,
+  },
+  start: 1000,
+});
+
+//Валидация цен
 const type = form.querySelector('#type');
 
 const MinPrice = {
@@ -30,21 +41,31 @@ const MinPrice = {
   hotel: 3000
 };
 
+
 const minPriceValidator = () => {
-  if(MinPrice[type.value] < price.value) {
+  if (+price.value >= MinPrice[type.value]) {
     return true;
   }
   return false;
 };
 
-const getPriceErrorMessage = () => {
-  price.placeholder = MinPrice[type.value];
-  return `Минимальная цена для этого типа жилья ${MinPrice[type.value]}`;
-};
+const getPriceErrorMessage = () => `Минимальная цена для этого типа жилья ${MinPrice[type.value]}`;
 
 pristine.addValidator(price, minPriceValidator, getPriceErrorMessage);
 
 type.addEventListener('change', () => {
+  price.value = MinPrice[type.value];
+  sliderElement.noUiSlider.set(MinPrice[type.value]);
+  pristine.validate(price);
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  price.value = Math.round(sliderElement.noUiSlider.get());
+  pristine.validate(price);
+});
+
+price.addEventListener('input', () => {
+  sliderElement.noUiSlider.set(price.value);
   pristine.validate(price);
 });
 
@@ -103,11 +124,13 @@ timeIn.addEventListener('change', () => {
   changeAttribute(timeOut, timeIn.value);
 });
 
-form.addEventListener ('submit', (evt) => {
+form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
     form.submit();
   }
 });
 
-export { changeFormStatus };
+changeFormStatus(false);
+
+export { changeFormStatus, pristine };
