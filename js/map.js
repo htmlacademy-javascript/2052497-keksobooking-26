@@ -67,22 +67,27 @@ const houseMarkerIcon = L.icon(
     iconAnchor: [20, 40],
   }
 );
+const markerGroup = L.layerGroup().addTo(map);
+const createMarker = (house) => {
+  const { location, author, offer } = house;
+  const houseMarkers = L.marker(
+    {
+      lat: location.lat,
+      lng: location.lng,
+    },
+    {
+      icon: houseMarkerIcon,
+    }
+  );
+  houseMarkers
+    .addTo(markerGroup)
+    .bindPopup(generateCards(author, offer));
+};
 
 const displayMarkers = (houses) => {
-  houses.forEach(({ location, author, offer }) => {
-    const houseMarkers = L.marker(
-      {
-        lat: location.lat,
-        lng: location.lng,
-      },
-      {
-        icon: houseMarkerIcon,
-      }
-    );
-    houseMarkers
-      .addTo(map)
-      .bindPopup(generateCards(author, offer));
-
+  markerGroup.clearLayers();
+  houses.forEach((house) => {
+    createMarker(house);
   });
 };
 
