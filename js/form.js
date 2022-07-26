@@ -139,6 +139,8 @@ const resetButton = form.querySelector('.ad-form__reset');
 resetButton.addEventListener('click', () => {
   resetMap();
   resetSlider();
+  changeAttribute(timeIn, '12:00');
+  changeAttribute(timeOut, '12:00');
 });
 
 const blockSubmitButton = () => {
