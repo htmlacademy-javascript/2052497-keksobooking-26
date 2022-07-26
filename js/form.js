@@ -1,3 +1,7 @@
+import { sendData } from './database.js';
+import { resetMap } from './map.js';
+
+
 //status = булевые значения
 const changeFormStatus = (status) => {
   const adForm = document.querySelector('.ad-form');
@@ -10,6 +14,7 @@ const changeFormStatus = (status) => {
     mapFilters.classList.remove('map__filters--disabled');
   }
 };
+changeFormStatus(false);
 
 const form = document.querySelector('.ad-form');
 const pristine = new Pristine(form, {
@@ -29,6 +34,10 @@ noUiSlider.create(sliderElement, {
   },
   start: 1000,
 });
+
+const resetSlider = () => {
+  sliderElement.noUiSlider.set(price.placeholder);
+};
 
 //Валидация цен
 const type = form.querySelector('#type');
@@ -124,13 +133,74 @@ timeIn.addEventListener('change', () => {
   changeAttribute(timeOut, timeIn.value);
 });
 
+//Обработка отправки b cброса формы формы
+const submitButton = form.querySelector('.ad-form__submit');
+const resetButton = form.querySelector('.ad-form__reset');
+resetButton.addEventListener('click', () => {
+  resetMap();
+  resetSlider();
+  changeAttribute(timeIn, '12:00');
+  changeAttribute(timeOut, '12:00');
+});
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+const successMessage = successMessageTemplate.cloneNode(true);
+const errorMessageTemlate = document.querySelector('#error').content.querySelector('.error');
+const errorMessage = errorMessageTemlate.cloneNode(true);
+const closeErrorMessageButton = errorMessage.querySelector('.error__button');
+const body = document.querySelector('body');
+
+const onSuccessForm = () => {
+  resetMap();
+  form.reset();
+  resetSlider();
+  unblockSubmitButton();
+  body.appendChild(successMessage);
+  document.addEventListener('click', () => {
+    successMessage.remove();
+  }, {once: true});
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      successMessage.remove();
+    }
+  }, {once: true});
+};
+
+const onFailForm = () => {
+  unblockSubmitButton();
+  body.appendChild(errorMessage);
+  document.addEventListener('click', () => {
+    errorMessage.remove();
+  }, {once: true});
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      errorMessage.remove();
+    }
+  }, {once: true});
+};
+
+closeErrorMessageButton.addEventListener('click', () => {
+  errorMessage.remove();
+});
+
+
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
-    form.submit();
+    blockSubmitButton();
+    const formData = new FormData(evt.target);
+    sendData(onSuccessForm, onFailForm, formData);
   }
 });
 
-changeFormStatus(false);
-
-export { changeFormStatus, pristine };
+export { changeFormStatus };

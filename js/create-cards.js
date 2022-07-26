@@ -29,7 +29,7 @@ const generateCards = function (author, offer) {
 
   const featuresContainer = houseCard.querySelector('.popup__features');
   const featuresList = featuresContainer.querySelectorAll('.popup__feature');
-  if (offer.features.length > 0) {
+  if (offer.features) {
     featuresList.forEach((featureList) => {
       const isNecessary = offer.features.some(
         (feature) => featureList.classList.contains(`popup__feature--${feature}`)
@@ -46,10 +46,12 @@ const generateCards = function (author, offer) {
   const houseImage = houseCard.querySelector('.popup__photo');
   const imageTemplate = houseImage.cloneNode(true);
   houseImageList.innerHTML = '';
-  for (let i = 0; i < offer.photos.length; i++) {
-    const imageCode = imageTemplate.cloneNode(true);
-    imageCode.src = offer.photos[i];
-    houseImageList.appendChild(imageCode);
+  if (offer.photos) {
+    for (let i = 0; i < offer.photos.length; i++) {
+      const imageCode = imageTemplate.cloneNode(true);
+      imageCode.src = offer.photos[i];
+      houseImageList.appendChild(imageCode);
+    }
   }
   return houseCard;
 };
