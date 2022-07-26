@@ -1,7 +1,9 @@
-import { displayMarkers } from './map.js';
-import { createElements } from './create-elements.js';
 
-const houses = createElements();
+import { getData } from './database.js';
+import { displayMap, displayMarkers } from './map.js';
+import { showAlert } from './functions.js';
 
-displayMarkers(houses);
+
+displayMap();
+getData(displayMarkers, showAlert);
 
