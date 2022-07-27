@@ -1,5 +1,6 @@
 import { sendData } from './database.js';
 import { resetMap } from './map.js';
+import { resetImage } from './avatar.js';
 
 
 //status = булевые значения
@@ -161,6 +162,7 @@ const closeErrorMessageButton = errorMessage.querySelector('.error__button');
 const body = document.querySelector('body');
 
 const onSuccessForm = () => {
+  resetImage();
   resetMap();
   form.reset();
   resetSlider();
