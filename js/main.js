@@ -1,9 +1,8 @@
 
 import { getData } from './database.js';
-import { displayMap, displayMarkers } from './map.js';
+import { displayMap } from './map.js';
 import { showAlert } from './functions.js';
-
+import { filterAndDisplayData } from './filter-data.js';
 
 displayMap();
-getData(displayMarkers, showAlert);
-
+getData(filterAndDisplayData, showAlert);

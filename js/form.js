@@ -1,5 +1,6 @@
 import { sendData } from './database.js';
 import { resetMap } from './map.js';
+import { resetImage } from './avatar.js';
 
 
 //status = булевые значения
@@ -8,10 +9,16 @@ const changeFormStatus = (status) => {
   const mapFilters = document.querySelector('.map__filters');
   if (!status) {
     adForm.classList.add('ad-form--disabled');
+    adForm.querySelectorAll('fieldset').forEach((el) => el.setAttribute('disabled', 'disabled'));
     mapFilters.classList.add('map__filters--disabled');
+    mapFilters.querySelectorAll('select').forEach((el) => el.setAttribute('disabled', 'disabled'));
+
   } else {
     adForm.classList.remove('ad-form--disabled');
+    adForm.querySelectorAll('fieldset').forEach((el) => el.removeAttribute('disabled'));
     mapFilters.classList.remove('map__filters--disabled');
+    mapFilters.querySelectorAll('select').forEach((el) => el.removeAttribute('disabled'));
+
   }
 };
 changeFormStatus(false);
@@ -161,6 +168,7 @@ const closeErrorMessageButton = errorMessage.querySelector('.error__button');
 const body = document.querySelector('body');
 
 const onSuccessForm = () => {
+  resetImage();
   resetMap();
   form.reset();
   resetSlider();

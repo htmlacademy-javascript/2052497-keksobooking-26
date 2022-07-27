@@ -3,7 +3,7 @@ const getData = (onSuccess, onFail) => {
     .then((response) => response.json())
     .then((responce) => {
       if (responce) {
-        onSuccess(responce.slice(0, 10));
+        onSuccess(responce);
       } else {
         onFail('Не удалось загрузить данные обьявлений, попробуйте перезагрузить страницу');
       }

@@ -52,3 +52,12 @@ export function getSomeRandomValue(elements) {
   }
   return randomElements;
 }
+
+//Устраняе дребезги
+export function debounce(callback, timeoutDelay) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
