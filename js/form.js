@@ -9,10 +9,16 @@ const changeFormStatus = (status) => {
   const mapFilters = document.querySelector('.map__filters');
   if (!status) {
     adForm.classList.add('ad-form--disabled');
+    adForm.querySelectorAll('fieldset').forEach((el) => el.setAttribute('disabled', 'disabled'));
     mapFilters.classList.add('map__filters--disabled');
+    mapFilters.querySelectorAll('select').forEach((el) => el.setAttribute('disabled', 'disabled'));
+
   } else {
     adForm.classList.remove('ad-form--disabled');
+    adForm.querySelectorAll('fieldset').forEach((el) => el.removeAttribute('disabled'));
     mapFilters.classList.remove('map__filters--disabled');
+    mapFilters.querySelectorAll('select').forEach((el) => el.removeAttribute('disabled'));
+
   }
 };
 changeFormStatus(false);
