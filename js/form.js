@@ -39,8 +39,9 @@ noUiSlider.create(sliderElement, {
     min: 0,
     max: 100000,
   },
-  start: 1000,
+  start: 0,
 });
+
 
 const resetSlider = () => {
   sliderElement.noUiSlider.set(price.placeholder);
@@ -70,17 +71,16 @@ const getPriceErrorMessage = () => `Минимальная цена для эт�
 pristine.addValidator(price, minPriceValidator, getPriceErrorMessage);
 
 type.addEventListener('change', () => {
-  price.value = MinPrice[type.value];
-  sliderElement.noUiSlider.set(MinPrice[type.value]);
+  price.placeholder = MinPrice[type.value];
   pristine.validate(price);
 });
 
-sliderElement.noUiSlider.on('update', () => {
+sliderElement.noUiSlider.on('change', () => {
   price.value = Math.round(sliderElement.noUiSlider.get());
   pristine.validate(price);
 });
 
-price.addEventListener('input', () => {
+price.addEventListener('change', () => {
   sliderElement.noUiSlider.set(price.value);
   pristine.validate(price);
 });
