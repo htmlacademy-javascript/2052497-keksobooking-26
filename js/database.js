@@ -1,3 +1,6 @@
+const DATA_LOADING_ERROR_MESSAGE = 'Не удалось загрузить данные обьявлений, попробуйте перезагрузить страницу';
+const ERROR_MESSAGE_TIMER = 5000;
+
 const getData = (onSuccess, onFail) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
@@ -5,11 +8,11 @@ const getData = (onSuccess, onFail) => {
       if (responce) {
         onSuccess(responce);
       } else {
-        onFail('Не удалось загрузить данные обьявлений, попробуйте перезагрузить страницу');
+        onFail(DATA_LOADING_ERROR_MESSAGE, ERROR_MESSAGE_TIMER);
       }
     })
     .catch(() => {
-      onFail('Не удалось загрузить данные обьявлений, попробуйте перезагрузить страницу');
+      onFail(DATA_LOADING_ERROR_MESSAGE, ERROR_MESSAGE_TIMER);
     });
 };
 
@@ -24,7 +27,7 @@ const sendData = (onSuccess, onFail, formData) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail();
+        onFail(DATA_LOADING_ERROR_MESSAGE);
       }
     });
 

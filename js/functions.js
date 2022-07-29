@@ -1,5 +1,5 @@
 //Всплывающее окно ошибки
-export const showAlert = (message) => {
+export const showAlert = (message, timer) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
   alertContainer.style.position = 'absolute';
@@ -17,7 +17,7 @@ export const showAlert = (message) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 5000);
+  }, timer);
 };
 
 // Генератор случайного целого чисела

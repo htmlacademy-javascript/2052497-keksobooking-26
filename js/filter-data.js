@@ -6,7 +6,7 @@ const filtersElements = document.querySelector('.map__filters');
 const MAX_DISPLAY_MARKERS = 10;
 const DEFAULT_FILTER = 'any';
 //Фильтр по типу
-const filterType = (element) => {
+const getFilteredType = (element) => {
   const typeValue = document.querySelector('#housing-type').value;
   if (typeValue === DEFAULT_FILTER) {
     return true;
@@ -32,7 +32,7 @@ const HIGH_FILTER_PRICE ={
   price: 50000
 };
 
-const filterPrice = (element) => {
+const getFilteredPrice = (element) => {
   const priceValue = document.querySelector('#housing-price').value;
   switch (priceValue) {
     case DEFAULT_FILTER:
@@ -47,7 +47,7 @@ const filterPrice = (element) => {
 };
 
 //Фильтрация по количеству комнат
-const filterRooms = (element) => {
+const getFilteredRooms = (element) => {
   const filterValue = document.querySelector('#housing-rooms').value;
   if (filterValue === DEFAULT_FILTER) {
     return true;
@@ -57,7 +57,7 @@ const filterRooms = (element) => {
 };
 
 //Фильтрация по количеству гостей
-const filterGuests = (element) => {
+const getFilteredGuests = (element) => {
   const filterValue = document.querySelector('#housing-guests').value;
   if (filterValue === DEFAULT_FILTER) {
     return true;
@@ -67,23 +67,23 @@ const filterGuests = (element) => {
 };
 
 //Фильтрация по удобствам
-const filterFeatures = (element) => {
+const getFilteredFeatures = (element) => {
   const featureValues = document.querySelector('#housing-features').querySelectorAll('input:checked');
   if (featureValues.length === 0) {
     return true;
   }
-  const checked = [];
-  featureValues.forEach((el) => checked.push(el.value));
-  return (element.offer.features) ? checked.every((el) => (element.offer.features.includes(el))) : false;
+  const selectedFeatures = [];
+  featureValues.forEach((el) => selectedFeatures.push(el.value));
+  return (element.offer.features) ? selectedFeatures.every((el) => (element.offer.features.includes(el))) : false;
 };
 
 const filterAndDisplayData = (houses) => {
   const filteredData = houses
-    .filter(filterType)
-    .filter(filterPrice)
-    .filter(filterRooms)
-    .filter(filterGuests)
-    .filter(filterFeatures)
+    .filter(getFilteredType)
+    .filter(getFilteredPrice)
+    .filter(getFilteredRooms)
+    .filter(getFilteredGuests)
+    .filter(getFilteredFeatures)
     .slice(0, MAX_DISPLAY_MARKERS);
   displayMarkers(filteredData);
 };
